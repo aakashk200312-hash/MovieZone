@@ -83,7 +83,7 @@ public class MovieController {
     	return service.patchMovie(request);
     }
     
-    @DeleteMapping("/deleteMocie/{id}")
+    @DeleteMapping("/deleteMovie/{id}")
     public DeleteMovieResponse deleteMovie(
     		@PathVariable int id) {
     	

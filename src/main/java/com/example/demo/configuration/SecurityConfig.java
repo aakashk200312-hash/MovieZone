@@ -19,57 +19,67 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                // ===== Public APIs =====
+                // ==========================
+                // PUBLIC APIs (Guest User)
+                // ==========================
                 .requestMatchers(
 
-                        // User Registration
-                        "/addUser",
+                        // Authentication
+                        "/register",
+                        "/login",
                         "/validateEmail",
 
-                        // Movie APIs
+                        // Movie Browsing
                         "/getMovies",
-                        "/getMovie/**"                       
+                        "/getMovie/**",
+                        "/searchMovie/**",
+
+                        // Swagger
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**"
+
                 ).permitAll()
 
-
-                // ===== User APIs (Login Required) =====
+                // ==========================
+                // USER APIs (After Login)
+                // ==========================
                 .requestMatchers(
 
+                        // Booking
                         "/addBooking",
+                        "/getBookings",
                         "/searchBooking/**",
                         "/updateBooking",
                         "/patchBooking",
-                        "/deleteBooking/**"
+                        "/deleteBooking/**",
+
+                        // User Profile
+                        "/getUser/**",
+                        "/updateUser",
+                        "/patchUser"
 
                 ).authenticated()
 
-
-                // ===== Admin APIs (Login Required) =====
+                // ==========================
+                // ADMIN APIs
+                // ==========================
                 .requestMatchers(
 
                         // User Management
                         "/getUsers",
-                        "/getUser/**",
                         "/deleteUser/**",
 
                         // Movie Management
                         "/addMovie",
                         "/updateMovie",
                         "/patchMovie",
-                        "/deleteMovie/**",
-
-                        // Booking Management
-                        "/getBookings",
-                        
-                        // Swagger
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**"
-
+                        "/deleteMovie/**"
 
                 ).authenticated()
 
-                // Any other request
+                // Any other API
                 .anyRequest().authenticated()
+
             )
 
             // Basic Authentication

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.controller.request.AddUserRequest;
 import com.example.demo.controller.request.DeleteUserRequest;
+import com.example.demo.controller.request.LoginRequest;
+import com.example.demo.controller.request.RegisterRequest;
 import com.example.demo.controller.request.UpdateUserRequest;
 import com.example.demo.controller.response.SearchUserResponse;
 import com.example.demo.controller.response.UserResponse;
@@ -80,6 +82,19 @@ public class UserController {
     public UserResponse deleteUser(
     		@PathVariable int id) {
     	return service.deleteUser(id);
+    }
+    
+    @PostMapping("/register")
+    public UserResponse register(
+    		@RequestBody RegisterRequest request) {
+    	return service.register(request);
+    }
+    
+    @PostMapping("/login")
+    public UserResponse login(
+    		@RequestBody LoginRequest request) {
+    	
+    	return service.login(request);
     }
    
 }

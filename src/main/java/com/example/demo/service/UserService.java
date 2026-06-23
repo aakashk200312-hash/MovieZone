@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.controller.request.AddUserRequest;
 import com.example.demo.controller.request.DeleteUserRequest;
+import com.example.demo.controller.request.LoginRequest;
+import com.example.demo.controller.request.RegisterRequest;
 import com.example.demo.controller.request.UpdateUserRequest;
 import com.example.demo.controller.response.SearchUserResponse;
 import com.example.demo.controller.response.UserResponse;
@@ -17,7 +19,7 @@ import com.example.demo.repository.UserRepository;
 public class UserService {
 	
 	@Autowired
-	UserRepository repository;
+	private UserRepository repository;
 	
 	public UserResponse addUser(AddUserRequest request) {
 
@@ -188,6 +190,64 @@ public class UserService {
 
 		    return response;
 		}
+	 
+	 public UserResponse register(RegisterRequest request) {
+		 
+		 UserResponse response = new UserResponse();
+		 
+		 if(repository.existsByEmail(request.getEmail())) {
+			 
+			 response.setMessage("Email already exists");
+			 response.setStatus("Failed");
+			 
+			 return response;
+		 }
+		 
+		 User user = new User();
+		 
+		 user.setUserName(request.getUserName());
+		 user.setEmail(request.getEmail());
+		 user.setPassword(request.getPassword());
+		 user.setMobileNumber(request.getMobileNumber());
+		 
+		 repository.save(user);
+		 
+		 response.setMessage("Registration Successfull");
+		 response.setStatus("Success");
+		 
+		 return response;
+		 
+	 }
+	 
+	 public UserResponse login(LoginRequest request) {
+		 
+		 UserResponse response = new UserResponse();
+		 
+		 User user = repository.findByEmail(request.getEmail());
+		 
+		 if(user == null) {
+			 
+			 response.setMessage("User Not Found");
+			 response.setMessage("Failed");
+			 
+			 return response;
+			 
+			 
+		 }
+		 
+		 if(user.getPassword().equals(request.getPassword())) {
+			 
+			 response.setMessage("Login Successfull");
+			 response.setStatus("Success");
+		 }else {
+			 
+			 response.setMessage("Invalid Password");
+			 response.setStatus("Failed");
+			 
+		 }
+		 
+		 return response;
+	 }
 	
 	
 	}
