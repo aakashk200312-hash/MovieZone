@@ -32,11 +32,11 @@ public class UserService {
 	    }
 		
 		User user = new User();
-		
-		user.setUserId(request.getUserId());
+	
 		user.setUserName(request.getUserName());
 		user.setEmail(request.getEmail());
 		user.setMobileNumber(request.getMobileNumber());
+		user.setPassword(request.getPassword());
 		
 		repository.save(user);
 		

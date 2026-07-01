@@ -20,8 +20,14 @@ public class Movie {
 	
 	private double rating;
 	
+	private double ticketPrice;
+	
 	@OneToMany(mappedBy = "movie")
-	@JsonManagedReference
+	@JsonManagedReference("movie-show")
 	private List<Booking> bookings;
+	
+	@OneToMany(mappedBy = "movie")
+	@JsonManagedReference("movie-booking")
+	private List<Show> shows;
 
 }

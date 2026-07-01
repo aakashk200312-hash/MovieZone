@@ -8,6 +8,7 @@ import com.example.demo.entity.Movie;
 public interface MovieRepository 
 	extends JpaRepository<Movie,Integer>{
 		
+	Movie findByNameIgnoreCase(String name);
 	
 
 }

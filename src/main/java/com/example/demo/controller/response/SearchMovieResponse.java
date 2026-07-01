@@ -5,8 +5,9 @@ import lombok.Data;
 @Data
 public class SearchMovieResponse {
 
-    private int id;
-    private String name;
-    private double rating;
-
+	private int id;
+	
+	private String name;
+	
+	private double rating;
 }

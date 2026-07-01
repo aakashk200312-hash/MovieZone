@@ -3,10 +3,10 @@ package com.example.demo.controller.response;
 import lombok.Data;
 
 @Data
-public class UpdateBookingResponse {
-
+public class ApiResponse {
 	
 	private String message;
+	
 	private String status;
 
 }

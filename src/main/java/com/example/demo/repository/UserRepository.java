@@ -12,5 +12,6 @@ extends JpaRepository<User, Integer>{
 	boolean existsByEmail(String email);
 	
 	User findByEmail(String email);
+	
 
 }

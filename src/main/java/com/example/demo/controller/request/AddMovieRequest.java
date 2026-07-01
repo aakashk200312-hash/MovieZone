@@ -8,7 +8,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class AddMoviesRequest {
+public class AddMovieRequest {
 	
     
     private int id;
@@ -16,6 +16,8 @@ public class AddMoviesRequest {
     private String name;
     
     private double rating;
+    
+    private double ticketPrice;
 
     }
 	

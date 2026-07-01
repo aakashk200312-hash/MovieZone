@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,22 +12,26 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Booking {
+public class Payment {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int bookingId;
+	private Long paymentId;
 	
-	
-	private int seats;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "movie_id")
-	@JsonBackReference("movie-booking")
-	private Movie movie;
+	@JoinColumn(name = "booking_id")
+	private Booking booking;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	@JsonBackReference
-	private User user;
+	private Double Amount;
+	
+	private String paymentMethod;
+	
+	private String paymentStatus;
+	
+	private LocalDateTime paymentDate;
+	
+	
+	
 
 }

@@ -5,15 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.controller.request.AddMoviesRequest;
+import com.example.demo.controller.request.AddMovieRequest;
 import com.example.demo.controller.request.DeleteMovieRequest;
 import com.example.demo.controller.request.UpdateMovieRequest;
-
-import com.example.demo.controller.response.AddMovieResponse;
-import com.example.demo.controller.response.DeleteMovieResponse;
+import com.example.demo.controller.response.ApiResponse;
 import com.example.demo.controller.response.GetMovieResponse;
+import com.example.demo.controller.response.MovieResponse;
 import com.example.demo.controller.response.SearchMovieResponse;
-import com.example.demo.controller.response.UpdateMovieResponse;
 import com.example.demo.entity.Movie;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,19 +107,20 @@ public class MovieService {
     }
     
    
-        public AddMovieResponse addMovie(
-                AddMoviesRequest request){
+        public ApiResponse addMovie(
+                AddMovieRequest request){
 
             Movie movie = new Movie();
 
             movie.setId(request.getId());
             movie.setName(request.getName());
             movie.setRating(request.getRating());
+            movie.setTicketPrice(request.getTicketPrice());
 
             repository.save(movie);
 
-            AddMovieResponse response =
-                    new AddMovieResponse();
+            ApiResponse response =
+                    new ApiResponse();
 
             response.setMessage(
                     "Movie Added");
@@ -144,18 +143,27 @@ public class MovieService {
     
 
    
-    public UpdateMovieResponse updateMovie(
+    public ApiResponse updateMovie(
             UpdateMovieRequest request) {
 
-        UpdateMovieResponse response =
-                new UpdateMovieResponse();
+        ApiResponse response =
+                new ApiResponse();
 
-        for(GetMovieResponse movie : movieList) {
+        Movie movie = repository.findById(request.getId()).orElse(null);
+        
 
+       if(movie == null){
+       response.setMessage("Movie Not Found");
+       response.setStatus("Failed");
+       return response;
+           }
+        
             if(movie.getId() == request.getId()) {
 
                 movie.setName(request.getName());
                 movie.setRating(request.getRating());
+                
+                repository.save(movie);
 
                 response.setMessage(
                         "Movie Updated Successfully");
@@ -164,73 +172,59 @@ public class MovieService {
 
                 return response;
             }
+            return response;
         }
 
-        response.setMessage("Movie Not Found");
-        response.setStatus("Failed");
-
-        return response;
-    }
     
-    public DeleteMovieResponse deleteMovie(
+    public ApiResponse deleteMovie(
             DeleteMovieRequest request) {
 
-        DeleteMovieResponse response =
-                new DeleteMovieResponse();
+        ApiResponse response =
+                new ApiResponse();
+        Movie movie = repository.findById(request.getId()).orElse(null);
 
-        for(int i=0; i<movieList.size(); i++) {
-
-            if(movieList.get(i).getId()
-                    == request.getId()) {
-
-                movieList.remove(i);
-
-                response.setMessage(
-                        "Movie Deleted Successfully");
-
-                response.setStatus(
-                        "Success");
-
-                return response;
-            }
+        if(movie == null){
+            response.setMessage("Movie Not Found");
+            response.setStatus("Failed");
+            return response;
         }
 
-        response.setMessage(
-                "Movie Not Found");
+        repository.delete(movie);
 
-        response.setStatus(
-                "Failed");
+        response.setMessage("Movie Deleted Successfully");
+        response.setStatus("Success");
 
         return response;
-    }
+
+        
+            }
    
     public SearchMovieResponse searchMovie(
             String name) {
+    	
+    	Movie movie = repository.findByNameIgnoreCase(name);
+    	
+    	if(movie == null) {
+    		return null;
+    	}
 
         SearchMovieResponse response =
                 new SearchMovieResponse();
 
-        for(GetMovieResponse movie : movieList) {
-
-            if(movie.getName()
-                    .equalsIgnoreCase(name)) {
 
                 response.setId(movie.getId());
                 response.setName(movie.getName());
                 response.setRating(movie.getRating());
 
                 return response;
-            }
-        }
-
-        return null;
+          
     }
     
-    public UpdateMovieResponse patchMovie(
+    public ApiResponse patchMovie(
             UpdateMovieRequest request){
 
-        UpdateMovieResponse response =
-                new UpdateMovieResponse();
+        ApiResponse response =
+                new ApiResponse();
 
         Movie movie = repository.findById(
                 request.getId()).orElse(null);
@@ -257,9 +251,9 @@ public class MovieService {
         return response;
     }
     
-    public DeleteMovieResponse deleteMovie(int id) {
+    public ApiResponse deleteMovie(int id) {
     	
-    	DeleteMovieResponse response = new DeleteMovieResponse();
+    	ApiResponse response = new ApiResponse();
     	
     	Movie movie = repository.findById(id).orElse(null);
     	

@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import com.example.demo.controller.request.AddBookingRequest;
 import com.example.demo.controller.request.DeleteBookingRequest;
 import com.example.demo.controller.request.UpdateBookingRequest;
+import com.example.demo.controller.response.ApiResponse;
 import com.example.demo.controller.response.BookingResponse;
 import com.example.demo.controller.response.DeleteBookingResponse;
 import com.example.demo.controller.response.GetBookingResponse;
 import com.example.demo.controller.response.SearchBookingResponse;
-import com.example.demo.controller.response.UpdateBookingResponse;
 import com.example.demo.entity.Booking;
 import com.example.demo.entity.Movie;
+import com.example.demo.entity.User;
 import com.example.demo.repository.BookingRepository;
 import com.example.demo.repository.MovieRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.entity.User;
 
 @Service
 public class BookingService {
@@ -105,7 +105,6 @@ public class BookingService {
 
         Booking booking = new Booking();
 
-        booking.setBookingId(request.getBookingId());
         booking.setMovie(movie);
         booking.setUser(user);
         booking.setSeats(request.getSeats());
@@ -141,10 +140,10 @@ public class BookingService {
                 return response;
     }
     
-        public UpdateBookingResponse updateBooking(UpdateBookingRequest request) {
+        public ApiResponse updateBooking(UpdateBookingRequest request) {
 
-            UpdateBookingResponse response =
-                    new UpdateBookingResponse();
+            ApiResponse response =
+                    new ApiResponse();
 
             Booking booking = repository.findById(request.getBookingId())
                     .orElse(null);

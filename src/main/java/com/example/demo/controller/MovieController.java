@@ -5,16 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.controller.request.AddMoviesRequest;
+import com.example.demo.controller.request.AddMovieRequest;
 import com.example.demo.controller.request.DeleteMovieRequest;
 import com.example.demo.controller.request.UpdateMovieRequest;
-
-import com.example.demo.controller.response.AddMovieResponse;
-import com.example.demo.controller.response.GetMovieResponse;
-import com.example.demo.controller.response.DeleteMovieResponse;
+import com.example.demo.controller.response.ApiResponse;
 import com.example.demo.controller.response.SearchMovieResponse;
-import com.example.demo.controller.response.UpdateMovieResponse;
-
 import com.example.demo.service.MovieService;
 import com.example.demo.entity.Movie;
 
@@ -28,8 +23,8 @@ public class MovieController {
 
 
     @PostMapping("/addMovie")
-    public AddMovieResponse addMovie(
-            @RequestBody AddMoviesRequest request) {
+    public ApiResponse addMovie(
+            @RequestBody AddMovieRequest request) {
 
         return service.addMovie(request);
     }
@@ -53,7 +48,7 @@ public class MovieController {
 
 
     @PutMapping("/updateMovie")
-    public UpdateMovieResponse updateMovie(
+    public ApiResponse updateMovie(
             @RequestBody UpdateMovieRequest request) {
 
         return service.updateMovie(request);
@@ -62,7 +57,7 @@ public class MovieController {
 
 
     @DeleteMapping("/deleteMovie")
-    public DeleteMovieResponse deleteMovie(
+    public ApiResponse deleteMovie(
             @RequestBody DeleteMovieRequest request) {
 
         return service.deleteMovie(request);
@@ -77,14 +72,14 @@ public class MovieController {
     }
     
     @PatchMapping("/patchMovie")
-    public UpdateMovieResponse patchMovie(
+    public ApiResponse patchMovie(
     		@RequestBody UpdateMovieRequest request) {
     	
     	return service.patchMovie(request);
     }
     
     @DeleteMapping("/deleteMovie/{id}")
-    public DeleteMovieResponse deleteMovie(
+    public ApiResponse deleteMovie(
     		@PathVariable int id) {
     	
     	return service.deleteMovie(id);

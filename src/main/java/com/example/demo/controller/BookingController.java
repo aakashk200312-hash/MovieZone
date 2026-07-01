@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controller.request.AddBookingRequest;
 import com.example.demo.controller.request.DeleteBookingRequest;
 import com.example.demo.controller.request.UpdateBookingRequest;
+import com.example.demo.controller.response.ApiResponse;
 import com.example.demo.controller.response.BookingResponse;
 import com.example.demo.controller.response.DeleteBookingResponse;
-import com.example.demo.controller.response.GetBookingResponse;
 import com.example.demo.controller.response.SearchBookingResponse;
-import com.example.demo.controller.response.UpdateBookingResponse;
 import com.example.demo.entity.Booking;
 import com.example.demo.service.BookingService;
 
@@ -52,7 +51,7 @@ public class BookingController {
     }
     
     @PutMapping("/updateBooking")
-    public UpdateBookingResponse updateBooking(
+    public ApiResponse updateBooking(
     		@RequestBody 
     		UpdateBookingRequest request) {
     	
@@ -60,7 +59,7 @@ public class BookingController {
     }
     
     @PatchMapping("/patchBooking")
-    public UpdateBookingResponse patchBooking(
+    public ApiResponse patchBooking(
             @RequestBody
             UpdateBookingRequest request){
 
