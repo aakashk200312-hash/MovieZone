@@ -21,41 +21,11 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public UserResponse addUser(AddUserRequest request) {
-
-	    UserResponse response = new UserResponse();
-
-	    if (repository.existsByEmail(request.getEmail())) {
-	        response.setMessage("Email already exists");
-	        response.setStatus("Failed");
-	        return response;
-	    }
-		
-		User user = new User();
-	
-		user.setUserName(request.getUserName());
-		user.setEmail(request.getEmail());
-		user.setMobileNumber(request.getMobileNumber());
-		user.setPassword(request.getPassword());
-		
-		repository.save(user);
-		
-		response.setMessage("User Added Successfully");
-		response.setStatus("Success");
-		
-		return response;
-		
-		
-	}
 	
 	public List<User> getUsers(){
 		 return repository.findAll();
 	}
-	
-	public User getUser(int id) {
-		return repository.findById(id).orElse(null);
-	}
-	
+
 	public UserResponse updateUser(UpdateUserRequest request) {
 		
 		UserResponse response = new UserResponse();

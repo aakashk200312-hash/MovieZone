@@ -14,76 +14,80 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
 
-        http
-            .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
 
-            .authorizeHttpRequests(auth -> auth
+        .authorizeHttpRequests(auth -> auth
 
-                // ==========================
-                // PUBLIC APIs (Guest User)
-                // ==========================
-                .requestMatchers(
+        // ============================
+        // PUBLIC APIs (No Login Needed)
+        // ============================
+        .requestMatchers(
 
-                        // Authentication
-                        "/register",
-                        "/login",
-                        "/validateEmail",
+                "/register",
+                "/login",
+                "/validateEmail",
 
-                        // Movie Browsing
-                        "/getMovies",
-                        "/getMovie/**",
-                        "/searchMovie/**",
+                "/getMovies",
+                "/getMovie/**",
+                "/searchMovie/**",
 
-                        // Swagger
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**"
+                "/shows",
+                "/show/**",
 
-                ).permitAll()
+                "/swagger-ui/**",
+                "/v3/api-docs/**"
 
-                // ==========================
-                // USER APIs (After Login)
-                // ==========================
-                .requestMatchers(
+        ).permitAll()
 
-                        // Booking
-                        "/addBooking",
-                        "/getBookings",
-                        "/searchBooking/**",
-                        "/updateBooking",
-                        "/patchBooking",
-                        "/deleteBooking/**",
 
-                        // User Profile
-                        "/getUser/**",
-                        "/updateUser",
-                        "/patchUser"
+        // ============================
+        // USER APIs
+        // ============================
+        .requestMatchers(
 
-                ).authenticated()
+                "/addBooking",
+                "/getBookings",
+                "/searchBooking/**",
+                "/updateBooking",
+                "/patchBooking",
+                "/deleteBooking/**",
 
-                // ==========================
-                // ADMIN APIs
-                // ==========================
-                .requestMatchers(
+                "/makePayment",
+                "/payment/**",
+                "/getPayments",
 
-                        // User Management
-                        "/getUsers",
-                        "/deleteUser/**",
+                "/updateUser",
+                "/patchUser"
 
-                        // Movie Management
-                        "/addMovie",
-                        "/updateMovie",
-                        "/patchMovie",
-                        "/deleteMovie/**"
+        ).hasAnyRole("USER","ADMIN")
 
-                ).authenticated()
 
-                // Any other API
-                .anyRequest().authenticated()
+        // ============================
+        // ADMIN APIs
+        // ============================
+        .requestMatchers(
 
-            )
+                "/addMovie",
+                "/updateMovie",
+                "/patchMovie",
+                "/deleteMovie/**",
 
-            // Basic Authentication
-            .httpBasic(withDefaults());
+                "/addShow",
+                "/updateShow",
+                "/patchShow",
+                "/deleteShow/**",
+
+                "/getUsers",
+                "/searchUser/**",
+                "/deleteUser/**"
+
+        ).hasRole("ADMIN")
+
+        .anyRequest().authenticated()
+
+        )
+
+        .httpBasic(withDefaults());
 
         return http.build();
     }

@@ -30,12 +30,6 @@ public class UserController {
 	@Autowired
 	UserService service;
 	
-	@PostMapping("/addUser")
-	public UserResponse addUser(
-			@Valid @RequestBody AddUserRequest request) {
-		
-		return service.addUser(request);
-	}
 	
 	@GetMapping("/getUsers")
 	public List<User> getUsers(){
@@ -43,13 +37,6 @@ public class UserController {
 		return service.getUsers();
 	}
 	
-
-    @GetMapping("/user/{id}")
-    public User getUser(
-            @PathVariable int id) {
-
-        return service.getUser(id);
-    }
 
     @PutMapping("/updateUser")
     public UserResponse updateUser(
